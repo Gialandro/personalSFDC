@@ -1,0 +1,65 @@
+<apex:page sidebar="false" showHeader="true" docType="HTML-5.0" standardController="Lead" extensions="Lead_Auxilar_CTRL">
+	<apex:stylesheet value="{!URLFOR($Resource.recursosDeLead, 'CSS/estilos.css')}"/>
+	<apex:includeScript value="{!URLFOR($Resource.recursosDeLead, 'JS/scriptJS.js')}"/> <!-- Script para suma y hola en consola -->
+	<apex:form >
+	<h1>Test</h1>
+		<apex:pageBlock title="Lead" mode="edit">
+			<apex:pageBlockButtons >
+				<apex:commandButton action="{!save}" value="Guardar"/>
+			</apex:pageBlockButtons>
+			<apex:pageBlockSection title="Datos de Empleado" columns="2">
+				<apex:inputField styleClass="empleado" value="{!Lead.Empleado__c}" taborderhint="1"/>
+				<apex:inputField styleClass="empleado" value="{!Lead.Canal__c}" taborderhint="2"/>
+				<apex:inputField styleClass="empleado" value="{!Lead.Subcanal__c}" taborderhint="3"/>
+			</apex:pageBlockSection>
+
+			<apex:pageBlockSection title="Datos de Contacto/Representante legal" columns="2">
+				<apex:image width="20%" height="20%" styleClass="fotoBorde" value="{!URLFOR($Resource.recursosDeLead, 'IMG/Fotos/' + lead.Foto__c)}"/>
+				<apex:inputField value="{!Lead.Tipo_de_persona__c}" taborderhint="4"/>
+				<apex:inputField onclick="hola();" value="{!Lead.Phone}" taborderhint="5"/>
+				<apex:inputField value="{!Lead.Company}" taborderhint="6"/>
+				<apex:inputField value="{!Lead.Otro_Telefono__c}" taborderhint="7"/>
+				<apex:inputField value="{!Lead.Name}" taborderhint="8"/>
+				<apex:inputField value="{!Lead.MobilePhone}" taborderhint="9"/>
+				<apex:inputField value="{!Lead.Apellido_Paterno__c}" taborderhint="10"/>
+				<apex:inputField value="{!Lead.Email}" taborderhint="11"/>
+				<apex:inputField value="{!Lead.Apellido_Materno__c}" taborderhint="12"/>
+				<apex:inputField value="{!Lead.Otro_Correo_Electronico__c}" taborderhint="13"/>
+				<apex:inputField value="{!Lead.Fecha_de_Nacimiento__c}" taborderhint="14"/>
+				<apex:inputField value="{!Lead.Tipo_de_Moneda__c}" taborderhint="15"/>
+				<apex:inputField value="{!Lead.RFC__c}" taborderhint="16"/>
+				<apex:inputField value="{!Lead.Status}" taborderhint="17"/>
+			</apex:pageBlockSection>
+			<apex:pageBlockSection title="Encuesta" columns="2">
+				<apex:inputField value="{!Lead.LeadSource}" taborderhint="18"/>
+				<apex:inputField value="{!Lead.Medio_por_el_cual_se_entero__c}" taborderhint="19"/>
+			</apex:pageBlockSection>
+
+			<apex:pageBlockSection title="Datos de Direccion de Instalacion" columns="2">
+				<apex:inputField value="{!Lead.Codigo_Postal__c}" taborderhint="20"/>
+				<apex:inputField value="{!Lead.Calle__c}" taborderhint="21"/>
+				<apex:inputField value="{!Lead.Colonia__c}" taborderhint="22"/>
+				<apex:inputField value="{!Lead.Numero_exterior__c}" taborderhint="23"/>
+				<apex:inputField value="{!Lead.Delegacion__c}" taborderhint="24"/>
+				<apex:inputField value="{!Lead.Numero_interior__c}" taborderhint="25"/>
+				<apex:inputField value="{!Lead.Ciudad__c}" taborderhint="26"/>
+				<apex:inputField value="{!Lead.Estado__c}" taborderhint="27"/>
+			</apex:pageBlockSection>
+			<apex:pageBlockSection title="Referencias" columns="2">
+				<apex:inputField value="{!Lead.Calle_1__c}" taborderhint="28"/>
+				<apex:inputField value="{!Lead.Referencias_Urbanas__c}" taborderhint="29"/>
+				<apex:inputField value="{!Lead.Calle_2__c}" taborderhint="30"/>
+			</apex:pageBlockSection>
+			<apex:pageBlockSection title="Catalogo de Plazas" columns="2">
+				<apex:inputField value="{!Lead.Catalogo_de_Plaza__c}" taborderhint="31"/>
+			</apex:pageBlockSection>
+			
+			<apex:pageBlockSection title="Suma" columns="1">
+				<apex:inputField id="cal1" value="{!Lead.Cal1__c}"/>
+				<apex:inputField id="cal2" value="{!Lead.Cal2__c}"/>
+				<apex:outputLabel value="{!intTotal}" />
+				<apex:commandButton action="{!save}" value="Total"/>
+			</apex:pageBlockSection>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

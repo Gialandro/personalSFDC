@@ -1,0 +1,4 @@
+<apex:page standardController="Account" extensions="PlaceHolderReqCTRL">
+
+</apex:page>
+<!-- Meter 2k Codigo postal en un obj nuevo en proceso batch a traves de 1 tarea, se ejecuta cada 100 reg a las 10am-->

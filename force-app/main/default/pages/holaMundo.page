@@ -1,0 +1,28 @@
+<apex:page sidebar="false" showHeader="true" docType="HTML-5.0" standardController="account">
+  <h1>Hello World! {! $User.FirstName & ' ' & $User.LastName}</h1>
+  	<label>Hello Worlrd from Eclipe :D</label>
+	<p>Valor maximo: {! max(9,90,8,6,54,6,3,22)}</p>
+	<p>Hoy: {!Today()}</p>
+	<p>Semana: {!Today() + 7}</p>
+	<span>Raiz cuadrada de 49: {!SQRT(49)} </span>
+	<span>Suma 4 + 5 = {!4 + 5}</span>
+
+	<apex:form >
+		<apex:pageBlock title="{! $User.FirstName & ' ' & $User.LastName}" mode="edit">
+			<apex:pageBlockButtons >
+				<apex:commandButton action="{!save}" value="Guardar"/>
+			</apex:pageBlockButtons>
+			<apex:pageBlockSection title="Cuenta: {!account.Name} Owner: {!account.Owner.name}" columns="1">
+				<apex:inputField value="{!Account.Name}"/>
+				<apex:outputField value="{!Account.Website}">
+					<apex:inlineEditSupport event="ondblClick"/>
+				</apex:outputField>
+				<apex:inputField value="{!Account.Industry}" taborderhint="2"/>
+				<apex:inputField value="{!Account.AnnualRevenue}" taborderhint="1"/>
+			</apex:pageBlockSection>
+		</apex:pageBlock>
+	</apex:form>
+	<!-- Al traer los datos y usar detail obtiene todos los datos -->
+	<apex:relatedList list="Contacts"/>
+		<apex:detail />
+</apex:page>

@@ -1,0 +1,6 @@
+<apex:page standardController="Opportunity">
+    <apex:outputLabel rendered="{!Opportunity.StageName} == 'Prospecting'">Prospect</apex:outputLabel>
+    <apex:outputLabel rendered="{!Opportunity.StageName} == 'Needs Analysis'">Need</apex:outputLabel>
+    <apex:outputLabel rendered="{!Opportunity.StageName} == 'Proposal/Price Quote'">Proposal</apex:outputLabel>
+    <apex:outputLabel rendered="{!Opportunity.StageName} == 'Negotiation/Review'">Review</apex:outputLabel>
+</apex:page>

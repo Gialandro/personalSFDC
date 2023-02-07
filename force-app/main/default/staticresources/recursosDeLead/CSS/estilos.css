@@ -1,0 +1,30 @@
+/**/
+.fotoBorde {
+	border-style: solid;
+	border-color: #EE5D7B;
+	border-width: 13px
+}
+
+h1 {
+	color: #6FB0F0;
+	text-decoration: underline;
+}
+
+.empleado {
+	border: none;
+	border-bottom: 2px solid #46B0BA;
+}
+
+.empleado:focus {
+	border: none;
+	background-color: #B4E7E4;
+	border-bottom: 2px solid #46B0BA;
+}
+
+.empleado:hover {
+	border: none;
+	background-color: #DCEBDF;
+	border-bottom: 2px solid #46B0BA;
+}
+
+/*estilo que muestre rojo en negativos y negro positivos*/

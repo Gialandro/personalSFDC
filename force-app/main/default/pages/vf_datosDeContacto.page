@@ -1,0 +1,29 @@
+<apex:page sidebar="false" showHeader="true" docType="HTML-5.0" standardController="Lead">
+  <apex:form >
+		<apex:pageBlock title="Datos de Direccion">
+		<!--<apex:pageBlockButtons >
+				<apex:commandButton action="{!save}" value="Guardar"/>
+			</apex:pageBlockButtons> -->
+			<apex:pageBlockSection title="Datos de Contacto/Representante legal" columns="2">
+				<apex:inputField value="{!Lead.Tipo_de_persona__c}" taborderhint="1"/>
+				<apex:inputField value="{!Lead.Phone}" taborderhint="2"/>
+				<apex:inputField value="{!Lead.Company}" taborderhint="3"/>
+				<apex:inputField value="{!Lead.Otro_Telefono__c}" taborderhint="4"/>
+				<apex:inputField value="{!Lead.Name}" taborderhint="5"/>
+				<apex:inputField value="{!Lead.MobilePhone}" taborderhint="6"/>
+				<apex:inputField value="{!Lead.Apellido_Paterno__c}" taborderhint="7"/>
+				<apex:inputField value="{!Lead.Email}" taborderhint="7"/>
+				<apex:inputField value="{!Lead.Apellido_Materno__c}" taborderhint="9"/>
+				<apex:inputField value="{!Lead.Otro_Correo_Electronico__c}" taborderhint="10"/>
+				<apex:inputField value="{!Lead.Fecha_de_Nacimiento__c}" taborderhint="11"/>
+				<apex:inputField value="{!Lead.Tipo_de_Moneda__c}" taborderhint="12"/>
+				<apex:inputField value="{!Lead.RFC__c}" taborderhint="13"/>
+				<apex:inputField value="{!Lead.Status}" taborderhint="14"/>
+			</apex:pageBlockSection>
+			<apex:pageBlockSection title="Encuesta" columns="2">
+				<apex:inputField value="{!Lead.LeadSource}" taborderhint="1"/>
+				<apex:inputField value="{!Lead.Medio_por_el_cual_se_entero__c}" taborderhint="2"/>
+			</apex:pageBlockSection>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

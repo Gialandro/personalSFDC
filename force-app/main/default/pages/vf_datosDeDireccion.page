@@ -1,0 +1,28 @@
+<apex:page sidebar="false" showHeader="true" docType="HTML-5.0" standardController="Lead">
+  <!-- <h1>Hola  {! $User.FirstName & ' ' & $User.LastName}</h1> -->
+  <apex:form >
+		<apex:pageBlock title="Datos de Direccion">
+			<!-- <apex:pageBlockButtons >
+				<apex:commandButton action="{!save}" value="Guardar"/>
+			</apex:pageBlockButtons> -->
+			<apex:pageBlockSection title="Datos de Direccion de Instalacion" columns="2">
+				<apex:inputField value="{!Lead.Codigo_Postal__c}" taborderhint="1"/>
+				<apex:inputField value="{!Lead.Calle__c}" taborderhint="2"/>
+				<apex:inputField value="{!Lead.Colonia__c}" taborderhint="3"/>
+				<apex:inputField value="{!Lead.Numero_exterior__c}" taborderhint="4"/>
+				<apex:inputField value="{!Lead.Delegacion__c}" taborderhint="5"/>
+				<apex:inputField value="{!Lead.Numero_interior__c}" taborderhint="6"/>
+				<apex:inputField value="{!Lead.Ciudad__c}" taborderhint="7"/>
+				<apex:inputField value="{!Lead.Estado__c}" taborderhint="8"/>
+			</apex:pageBlockSection>
+			<apex:pageBlockSection title="Referencias" columns="2">
+				<apex:inputField value="{!Lead.Calle_1__c}" taborderhint="1"/>
+				<apex:inputField value="{!Lead.Referencias_Urbanas__c}" taborderhint="2"/>
+				<apex:inputField value="{!Lead.Calle_2__c}" taborderhint="3"/>
+			</apex:pageBlockSection>
+			<apex:pageBlockSection title="Catalogo de Plazas" columns="2">
+				<apex:inputField value="{!Lead.Catalogo_de_Plaza__c}" taborderhint="1"/>
+			</apex:pageBlockSection>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

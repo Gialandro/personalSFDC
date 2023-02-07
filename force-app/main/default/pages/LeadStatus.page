@@ -1,0 +1,5 @@
+<apex:page showHeader="true" sidebar="true" standardController="Lead" extensions="LeadStatusCTRL">
+	<span>Contactado</span>
+	<span>RecopilacionDatos</span>
+	<span>Finalizado</span>
+</apex:page>

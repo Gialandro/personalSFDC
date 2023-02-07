@@ -1,0 +1,16 @@
+<apex:page sidebar="false" showHeader="true" docType="HTML-5.0" standardController="Lead">
+  <apex:form >
+		<apex:pageBlock title="Datos del Vendedor">
+			<!-- <apex:pageBlockButtons >
+				<apex:commandButton action="{!save}" value="Guardar"/>
+			</apex:pageBlockButtons> -->
+			<apex:pageBlockSection title="Datos del Vendedor" columns="2">
+				<apex:inputField value="{!Lead.Codigo_Postal__c}" taborderhint="1"/>
+				<apex:inputField value="{!Lead.Calle__c}" taborderhint="2"/>
+				<apex:inputField value="{!Lead.Colonia__c}" taborderhint="3"/>
+				<apex:inputField value="{!Lead.Numero_exterior__c}" taborderhint="4"/>
+				<apex:inputField value="{!Lead.Delegacion__c}" taborderhint="5"/>
+			</apex:pageBlockSection>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

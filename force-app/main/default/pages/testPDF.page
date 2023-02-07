@@ -1,0 +1,11 @@
+<apex:page >
+    <apex:includeScript value="{!URLFOR($Resource.jquery, '/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.jspdf, '/jspdf.min.js')}"/>
+    <h1>Hello world :D</h1>
+    <script type="text/javascript">
+        var pdf = new jsPDF();
+        pdf.text(30, 30, 'Hello world!');
+        // pdf.save('hello_world.pdf');
+        pdf.output('datauri');
+    </script>
+</apex:page>

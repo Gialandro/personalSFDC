@@ -1,0 +1,11 @@
+<apex:page Controller="CanvasController" action="{!requestM}" sidebar="false">
+<apex:pageBlock >
+<apex:pageblockSection >
+<apex:pageblockTable value="{!dr}" var="dd">
+        <apex:column headerValue="Item id"><apex:outputText value="{!dd.ItemId}"/></apex:column>
+        <apex:column headerValue="Name"><apex:outputText value="{!dd.name}"/></apex:column>
+        <apex:column headerValue="upc"><apex:outputText value="{!dd.Upc}"/></apex:column>
+</apex:pageblockTable>
+    </apex:pageblockSection>
+</apex:pageBlock>
+</apex:page>

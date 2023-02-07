@@ -1,0 +1,10 @@
+<apex:page showHeader="true" sidebar="true">
+    <h1>Version previa</h1>
+    <h2>Texto agregado</h2>
+    <div>
+        <apex:image id="theImage" value="{!$Resource.BannerGitLab}" width="700" height="293" alt="Banner GitLab"/>
+    </div>
+    <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis eveniet quos obcaecati temporibus debitis numquam
+    </p>
+</apex:page>

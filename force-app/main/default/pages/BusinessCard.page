@@ -1,0 +1,10 @@
+<apex:page showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <dl class="slds-list_horizontal slds-wrap">
+        <dt class="slds-item_label slds-text-color_weak slds-truncate" title="First Label">Name:</dt>
+        <dd class="slds-item_detail slds-truncate" title="Description for first label">{!$User.Title} {!$User.FirstName} {!$User.LastName}</dd>
+        <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Second Label">Email:</dt>
+        <dd class="slds-item_detail slds-truncate" title="Description for second label">{!$User.Email}</dd>
+        <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Second Label">Phone:</dt>
+        <dd class="slds-item_detail slds-truncate" title="Description for second label">{!$User.Phone}</dd>
+    </dl>
+</apex:page>
