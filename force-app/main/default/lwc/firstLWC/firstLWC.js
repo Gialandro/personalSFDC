@@ -10,4 +10,8 @@ import userId from '@salesforce/user/Id';
 export default class FirstLWC extends LightningElement {
 	@api source;
 	@api recordId;
+	constructor (){
+		super();
+		console.log('test');
+	}
 }
