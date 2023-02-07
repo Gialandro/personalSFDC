@@ -12,6 +12,6 @@ export default class FirstLWC extends LightningElement {
 	@api recordId;
 	constructor (){
 		super();
-		console.log('test');
+		console.log('tests');
 	}
 }
