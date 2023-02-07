@@ -1,7 +1,7 @@
 name: Deploy in SFDC
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [synchronize]
     branches: [main]
     paths:
       - "force-app/**"
@@ -14,7 +14,7 @@ jobs:
         with:
           ref: ${{github.ref}}
           fetch-depth: 0
-          if: github.event.action == 'synchronize'
+          # if: github.event_name == 'push' || github.event.action == 'synchronize'
       # * Use Node 16 for SFDX CLI
       - uses: actions/setup-node@v3
         with:
@@ -30,6 +30,10 @@ jobs:
         run: |
           node_modules/sfdx-cli/bin/run sfdx plugins:install sfdx-git-delta
           node_modules/sfdx-cli/bin/run sfdx plugins
+      # * Check list of plugins
+      - name: SFDX Plugins
+        run: |
+          node_modules/sfdx-cli/bin/run sfdx plugins
       # * Install SFDX Scanner plugin (check PMD rules in the repo)
       - name: Install SFDX Scanner
         run: |
@@ -43,4 +47,4 @@ jobs:
       - name: Login in Salesforce
         run: |
           node_modules/sfdx-cli/bin/run force:auth:sfdxurl:store -f INSTANCE_URL -s -a sfdcInstance
-        
+      
