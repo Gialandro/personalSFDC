@@ -4,7 +4,7 @@ on:
     types: [synchronize]
     branches: [main]
     paths:
-      - "force-app/main/default/**"
+      - "force-app/**"
 jobs:
   steps-to-deploy:
     runs-on: ubuntu-latest
