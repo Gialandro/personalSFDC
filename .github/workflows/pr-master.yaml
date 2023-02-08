@@ -33,7 +33,7 @@ jobs:
         #   echo y | node_modules/sfdx-cli/bin/run plugins:install sfdx-git-delta
         #   node_modules/sfdx-cli/bin/run plugins
         run: |
-          sfdx plugins:install sfdx-git-delta
+          echo y | sfdx plugins:install sfdx-git-delta
       # * Check list of plugins
       # - name: SFDX Plugins
       #   run: |
@@ -44,7 +44,7 @@ jobs:
         #   echo y | node_modules/sfdx-cli/bin/run plugins:install @salesforce/sfdx-scanner
         #   node_modules/sfdx-cli/bin/run plugins
         run: |
-          sfdx plugins:install @salesforce/sfdx-scanner
+          echo y | sfdx plugins:install @salesforce/sfdx-scanner
           sfdx plugins
       # * Add URL from secret in repo
       # - name: Add URL from repo
