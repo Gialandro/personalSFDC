@@ -45,9 +45,8 @@ jobs:
       # * Deploy Delta changes
       - name: Create Delta
         run: |
-          mkdir delta-changes
-          sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output delta-changes/ --generate-delta --source force-app/
+          sfdx sgd:source:delta --to "HEAD" --from "HEAD~1" --output "."
       # * Deploy changes
       - name: Deploy to SFDC
         run: |
-          sfdx force:source:deploy -p "delta-changes/force-app" --postdestructivechanges "delta-changes/destructiveChanges/destructiveChanges.xml"
+          sfdx force:source:deploy -x package/package.xml --postdestructivechanges destructiveChanges/destructiveChanges.xml
