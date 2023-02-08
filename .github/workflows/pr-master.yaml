@@ -43,7 +43,11 @@ jobs:
         run: |
           sfdx force:auth:sfdxurl:store -f INSTANCE_URL -s -a sfdcInstance
       # * Deploy Delta changes
-      - name: Deploy changes
+      - name: Create Delta
         run: |
-          sfdx sgd:source:delta --to "HEAD" --from "HEAD~1" --output "."
-          sfdx force:source:deploy -x package/package.xml --postdestructivechanges destructiveChanges/destructiveChanges.xml
+          mkdir delta-changes
+          sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output delta-changes/ --generate-delta --source force-app/
+      # * Deploy changes
+      - name: Deploy to SFDC
+        run: |
+          sfdx force:source:deploy -p "delta-changes/force-app" --postdestructivechanges "delta-changes/destructiveChanges/destructiveChanges.xml"
