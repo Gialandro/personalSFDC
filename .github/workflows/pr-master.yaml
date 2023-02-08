@@ -2,7 +2,7 @@ name: Deploy in SFDC
 on:
   pull_request:
     types: [synchronize]
-    branches: [main]
+    branches: [master]
     paths:
       - "force-app/**"
 jobs:
