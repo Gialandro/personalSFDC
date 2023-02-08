@@ -5,6 +5,10 @@ on:
     branches: [master]
     paths:
       - "force-app/**"
+  push:
+    branches: [master]
+    paths:
+      - "force-app/**"
 jobs:
   steps-to-deploy:
     runs-on: ubuntu-latest
