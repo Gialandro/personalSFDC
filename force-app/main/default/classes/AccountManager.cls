@@ -1,3 +1,9 @@
+/**
+ * @description       : 
+ * @author            : gialandros@gmail.com
+ * @last modified on  : 08/02/2023
+ * @last modified by  : gialandros@gmail.com
+**/
 @RestResource(urlMapping='/Account/*/contacts')
 global with sharing class AccountManager {
     @HttpGet
@@ -6,6 +12,7 @@ global with sharing class AccountManager {
         String accId = request.requestURI.substringBetween('Accounts/', '/contacts');
         Account acc = [SELECT Id, Name, (SELECT ID, Name FROM Contacts) FROM Account WHERE Id =: accId];
 		System.debug ('Account=>>' + acc);
+		System.debug ('test in master');
         return acc;
     }
 }
