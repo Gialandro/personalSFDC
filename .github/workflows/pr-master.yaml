@@ -46,11 +46,11 @@ jobs:
       - name: Login in Salesforce
         run: |
           sfdx force:auth:sfdxurl:store -f INSTANCE_URL -s -a sfdcInstance
-          echo ${{github.head_ref}} __ ${{github.sha}} __ ${{github.event.before}} __ ${{github.event.base_ref}}
+          echo ${{github.sha}} __ ${{github.event.before}}
       # * Deploy Delta changes
       - name: Create Delta
         run: |
-          sfdx sgd:source:delta --to ${{github.sha}} --from HEAD~1 --output .
+          sfdx sgd:source:delta --to ${{github.sha}} --from ${{github.event.before}} --output .
       # * Deploy changes
       - name: Deploy to SFDC
         run: |
