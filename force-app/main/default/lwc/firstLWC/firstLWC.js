@@ -1,7 +1,7 @@
 /**
  * @description       : 
  * @author            : gialandros@gmail.com
- * @last modified on  : 07/02/2023
+ * @last modified on  : 08/02/2023
  * @last modified by  : gialandros@gmail.com
 **/
 import { LightningElement, api } from 'lwc';
@@ -13,6 +13,6 @@ export default class FirstLWC extends LightningElement {
 	constructor (){
 		super();
 		console.log('tests');
-		console.log('test=>>');
+		console.log('test=>> again');
 	}
 }
