@@ -13,7 +13,7 @@ public class AccountHandler {
             system.debug('Error: ' + er.getMessage());
             return null;
         }
-		System.debug ('test asd');
+		System.debug ('test asd .-.');
         return acc;
     }
 }
