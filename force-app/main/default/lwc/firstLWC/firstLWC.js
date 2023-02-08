@@ -13,6 +13,6 @@ export default class FirstLWC extends LightningElement {
 	constructor (){
 		super();
 		console.log('tests');
-		console.log('test=>> again :(');
+		console.log('test=>> again :( D:');
 	}
 }
