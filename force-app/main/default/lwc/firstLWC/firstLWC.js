@@ -14,5 +14,6 @@ export default class FirstLWC extends LightningElement {
 		super();
 		console.log('tests');
 		console.log('test=>> again :( D: -_- o_o another try with master .-. D:!-__-');
+		console.log('asdads');
 	}
 }
