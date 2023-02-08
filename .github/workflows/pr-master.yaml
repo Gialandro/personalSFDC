@@ -21,37 +21,29 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           check-latest: true
-      # * Install SFDX CLI
-      # - name: Install Salesforce CLI
-      #   run: |
-      #     npm install sfdx-cli
-      #     node_modules/sfdx-cli/bin/run --version
-      #     node_modules/sfdx-cli/bin/run plugins --core
+      # * Update CLI (just in case)
+      - name: Update CLI
+        run: |
+          sfdx update
       # * Install SFDX Delta plugin (deploy only detected changes)
       - name: Install SFDX Git Delta
-        # run: |
-        #   echo y | node_modules/sfdx-cli/bin/run plugins:install sfdx-git-delta
-        #   node_modules/sfdx-cli/bin/run plugins
         run: |
           echo y | sfdx plugins:install sfdx-git-delta
-      # * Check list of plugins
-      # - name: SFDX Plugins
-      #   run: |
-      #     node_modules/sfdx-cli/bin/run sfdx plugins
-      # * Install SFDX Scanner plugin (check PMD rules in the repo)
+      # * Install SFDX Scanner plugin (check PMD rules in the repo) and check list of plugins
       - name: Install SFDX Scanner
-        # run: |
-        #   echo y | node_modules/sfdx-cli/bin/run plugins:install @salesforce/sfdx-scanner
-        #   node_modules/sfdx-cli/bin/run plugins
         run: |
           echo y | sfdx plugins:install @salesforce/sfdx-scanner
           sfdx plugins
       # * Add URL from secret in repo
-      # - name: Add URL from repo
-      #   shell: bash
-      #   run: 'echo ${{secrets.SFDX_AUTH_URI}} > INSTANCE_URL'
+      - name: Add URL from repo
+        shell: bash
+        run: 'echo ${{secrets.SFDX_AUTH_URI}} > INSTANCE_URL'
       # * Login in SFDC instance
-      # - name: Login in Salesforce
-      #   run: |
-      #     node_modules/sfdx-cli/bin/run force:auth:sfdxurl:store -f INSTANCE_URL -s -a sfdcInstance
-      
+      - name: Login in Salesforce
+        run: |
+          force:auth:sfdxurl:store -f INSTANCE_URL -s -a sfdcInstance
+      # * Deploy Delta changes
+      - name: Deploy changes
+        run: |
+          sfdx sgd:source:delta --to "HEAD" --from "HEAD~1" --output "."
+          sfdx force:source:deploy -x package/package.xml --postdestructivechanges destructiveChanges/destructiveChanges.xml
