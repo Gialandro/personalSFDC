@@ -45,7 +45,7 @@ jobs:
       # * Deploy Delta changes
       - name: Create Delta
         run: |
-          sfdx sgd:source:delta --to "HEAD" --from "HEAD~1" --output "."
+          sfdx sgd:source:delta --to HEAD --from HEAD~1 --output .
       # * Deploy changes
       - name: Deploy to SFDC
         run: |
