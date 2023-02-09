@@ -29,6 +29,7 @@ jobs:
         run: |
           sfdx update
           git config --global --add safe.directory /__w/personalSFDC/personalSFDC
+          echo "##[set-output name=branch;]${GITHUB_REF#refs/heads/}"
       # * Install SFDX Delta plugin (deploy only detected changes)
       - name: Install SFDX Git Delta
         run: |
