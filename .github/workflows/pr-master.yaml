@@ -32,7 +32,7 @@ jobs:
       # * Install SFDX Delta plugin (deploy only detected changes)
       - name: Install SFDX Git Delta
         run: |
-          echo y | sfdx plugins:install sfdx-git-delta@5.10.2
+          echo y | sfdx plugins:install sfdx-git-delta@5.8.0
       # * Install SFDX Scanner plugin (check PMD rules in the repo) and check list of plugins
       # - name: Install SFDX Scanner
       #   run: |
