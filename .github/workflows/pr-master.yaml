@@ -13,7 +13,7 @@ jobs:
   steps-to-deploy:
     runs-on: ubuntu-latest
     container: 
-      image: salesforce/salesforcedx:latest-full
+      image: salesforce/salesforcedx:latest-rc-full
     steps:
       # * Check repo and previous commits for delta deploy (SFDX plugin)
       - uses: actions/checkout@v2
