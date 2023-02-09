@@ -18,7 +18,7 @@ jobs:
       # * Check repo and previous commits for delta deploy (SFDX plugin)
       - uses: actions/checkout@v3
         with:
-          ref: ${{github.ref}}
+          # ref: ${{github.ref}}
           fetch-depth: 0
           # if: github.event_name == 'push' || github.event.action == 'synchronize'
       # * Use Node 16 for SFDX CLI
@@ -50,7 +50,7 @@ jobs:
       # * Deploy Delta changes
       - name: Create Delta
         run: |
-          sfdx sgd:source:delta --to ${{github.sha}} --from ${{github.event.before}} --output .
+          sfdx sgd:source:delta --from ${{github.event.before}} --output .
       # * Deploy changes
       - name: Deploy to SFDC
         run: |
