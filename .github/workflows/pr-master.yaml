@@ -16,7 +16,7 @@ jobs:
       image: salesforce/salesforcedx:latest-rc-full
     steps:
       # * Check repo and previous commits for delta deploy (SFDX plugin)
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           ref: ${{github.ref}}
           fetch-depth: 0
