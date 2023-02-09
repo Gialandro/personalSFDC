@@ -28,6 +28,7 @@ jobs:
       - name: Update CLI
         run: |
           sfdx update
+          git config --global --add safe.directory /__w/personalSFDC/personalSFDC
           git log
       # * Install SFDX Delta plugin (deploy only detected changes)
       - name: Install SFDX Git Delta
