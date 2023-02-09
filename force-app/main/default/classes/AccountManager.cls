@@ -12,7 +12,7 @@ global with sharing class AccountManager {
         String accId = request.requestURI.substringBetween('Accounts/', '/contacts');
         Account acc = [SELECT Id, Name, (SELECT ID, Name FROM Contacts) FROM Account WHERE Id =: accId];
 		System.debug ('Account=>>' + acc);
-		System.debug ('asdasd asd');
+		System.debug ('asdasd asd branch name');
         return acc;
     }
 }
