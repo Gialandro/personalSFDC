@@ -34,10 +34,10 @@ jobs:
         run: |
           echo y | sfdx plugins:install sfdx-git-delta
       # * Install SFDX Scanner plugin (check PMD rules in the repo) and check list of plugins
-      - name: Install SFDX Scanner
-        run: |
-          echo y | sfdx plugins:install @salesforce/sfdx-scanner
-          sfdx plugins
+      # - name: Install SFDX Scanner
+      #   run: |
+      #     echo y | sfdx plugins:install @salesforce/sfdx-scanner
+      #     sfdx plugins
       # * Add URL from secret in repo
       - name: Add URL from repo
         shell: bash
