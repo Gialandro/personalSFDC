@@ -28,12 +28,11 @@ jobs:
       - name: Update CLI
         run: |
           sfdx update
-          git config --global --add safe.directory /__w/personalSFDC/personalSFDC
-          git log
+          git config --global --add safe.directory /__w/personalSFDC/
       # * Install SFDX Delta plugin (deploy only detected changes)
       - name: Install SFDX Git Delta
         run: |
-          echo y | sfdx plugins:install sfdx-git-delta@5.8.0
+          echo y | sfdx plugins:install sfdx-git-delta
       # * Install SFDX Scanner plugin (check PMD rules in the repo) and check list of plugins
       # - name: Install SFDX Scanner
       #   run: |
@@ -47,7 +46,6 @@ jobs:
       - name: Login in Salesforce
         run: |
           sfdx force:auth:sfdxurl:store -f INSTANCE_URL -s -a sfdcInstance
-          echo ${{github.sha}} __ ${{github.event.before}}
       # * Deploy Delta changes
       - name: Create Delta
         run: |
