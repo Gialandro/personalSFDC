@@ -50,7 +50,7 @@ jobs:
       # * Deploy Delta changes
       - name: Create Delta
         run: |
-          sfdx sgd:source:delta --from ${{github.event.before}} --output .
+          sfdx sgd:source:delta --to ${{github.sha}} --from ${{github.event.before}} --output .
       # * Deploy changes
       - name: Deploy to SFDC
         run: |
