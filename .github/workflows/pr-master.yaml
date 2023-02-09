@@ -16,11 +16,10 @@ jobs:
       image: salesforce/salesforcedx:latest-full
     steps:
       # * Check repo and previous commits for delta deploy (SFDX plugin)
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
-          # ref: ${{github.ref}}
+          ref: ${{github.ref}}
           fetch-depth: 0
-          # if: github.event_name == 'push' || github.event.action == 'synchronize'
       # * Use Node 16 for SFDX CLI
       - uses: actions/setup-node@v3
         with:
@@ -50,7 +49,7 @@ jobs:
       # * Deploy Delta changes
       - name: Create Delta
         run: |
-          sfdx sgd:source:delta --to ${{github.sha}} --from ${{github.event.before}} --generate-delta --output . --source force-app/
+          sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --generate-delta --output . --source force-app/
       # * Deploy changes
       - name: Deploy to SFDC
         run: |
