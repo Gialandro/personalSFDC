@@ -47,8 +47,6 @@ jobs:
         run: |
           sfdx force:auth:sfdxurl:store -f INSTANCE_URL -s -a sfdcInstance
           echo ${{github.sha}} __ ${{github.event.before}}
-          git status -s -b
-          git log --oneline --decorate --all --graph
       # * Deploy Delta changes
       - name: Create Delta
         run: |
