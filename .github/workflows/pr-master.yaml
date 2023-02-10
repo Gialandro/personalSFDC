@@ -54,10 +54,6 @@ jobs:
       - name: Run one tests
         run: |
           sfdx force:apex:test:run --synchronous --classnames "AccountManagerTest"
-      # * Run wrong test
-      - name: Run wrong test
-        run: |
-          sfdx force:apex:test:run --synchronous --classnames "AccountManagerTes"
       # * Run Tests
       - name: Run All tests
         run: |
