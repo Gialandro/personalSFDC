@@ -50,6 +50,18 @@ jobs:
       - name: Create Delta
         run: |
           sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --generate-delta --output . --source force-app/
+      # * Run Specified tests
+      - name: Run one tests
+        run: |
+          sfdx force:apex:test:run --synchronous --classnames "AccountManagerTest"
+      # * Run wrong test
+      - name: Run wrong test
+        run: |
+          sfdx force:apex:test:run --synchronous --classnames "AccountManagerTes"
+      # * Run Tests
+      - name: Run All tests
+        run: |
+          sfdx force:apex:test:run --synchronous --testlevel RunLocalTests
       # * Deploy changes
       - name: Deploy to SFDC
         run: |
