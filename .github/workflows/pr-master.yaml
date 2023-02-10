@@ -61,7 +61,7 @@ jobs:
       # * Run test with deploy method
       - name: Test with Deploy method
         run: |
-          sfdx force:source:deploy -p "changed-sources/force-app" --checkonly --testlevel RunSpecifiedTests --runtests "AccountManagerTest" --json
+          sfdx force:source:deploy -p "force-app" --checkonly --testlevel RunSpecifiedTests --runtests "AccountManagerTest" --json
       # * Deploy changes
       - name: Deploy to SFDC
         run: |
