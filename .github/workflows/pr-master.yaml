@@ -53,11 +53,11 @@ jobs:
       # * Run Specified tests
       - name: Run one tests
         run: |
-          sfdx force:apex:test:run --synchronous --classnames "AccountManagerTest"
+          sfdx force:apex:test:run --classnames "AccountManagerTest,LeadProcessorTest" --codecoverage --resultformat human
       # # * Run Tests
       - name: Run All tests
         run: |
-          sfdx force:apex:test:run --synchronous --testlevel RunLocalTests --codecoverage
+          sfdx force:apex:test:run --testlevel RunLocalTests --codecoverage --resultformat human
       # * Run test with deploy method
       # - name: Test with Deploy method
       #   run: |
