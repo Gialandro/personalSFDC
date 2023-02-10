@@ -41,7 +41,9 @@ jobs:
       # * Add URL from secret in repo
       - name: Add URL from repo
         shell: bash
-        run: 'echo ${{secrets.SFDX_AUTH_URI}} > INSTANCE_URL'
+        run: |
+          echo ${{secrets.SFDX_AUTH_URI}} > INSTANCE_URL
+          echo ::set-output name=tests::$(cat tests/master.txt)
       # * Login in SFDC instance
       - name: Login in Salesforce
         run: |
