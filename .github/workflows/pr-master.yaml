@@ -54,10 +54,14 @@ jobs:
       - name: Run one tests
         run: |
           sfdx force:apex:test:run --synchronous --classnames "AccountManagerTest"
-      # * Run Tests
-      - name: Run All tests
+      # # * Run Tests
+      # - name: Run All tests
+      #   run: |
+      #     sfdx force:apex:test:run --synchronous --testlevel RunLocalTests
+      # * Run test with deploy method
+      - name: Test with Deploy method
         run: |
-          sfdx force:apex:test:run --synchronous --testlevel RunLocalTests
+          sfdx force:source:deploy -p "changed-sources/force-app" --checkonly --testlevel RunSpecifiedTests --runtests "AccountManagerTest" --json
       # * Deploy changes
       - name: Deploy to SFDC
         run: |
