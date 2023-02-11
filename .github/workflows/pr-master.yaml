@@ -44,7 +44,7 @@ jobs:
         run: |
           echo ${{secrets.SFDX_AUTH_URI}} > INSTANCE_URL
           TESTS=$(cat tests/master.txt)
-          echo "APEX_TESTS=$TESTS" $GITHUB_ENV
+          echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
       # * Login in SFDC instance
       - name: Login in Salesforce
         run: |
