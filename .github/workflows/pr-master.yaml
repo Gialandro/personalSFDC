@@ -48,7 +48,7 @@ jobs:
       # * Login in SFDC instance
       - name: Login in Salesforce
         run: |
-          echo env.APEX_TESTS
+          echo ${{env.APEX_TESTS}}
           sfdx force:auth:sfdxurl:store -f INSTANCE_URL -s -a sfdcInstance
       # * Deploy Delta changes
       - name: Create Delta
