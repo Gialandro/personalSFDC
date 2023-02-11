@@ -43,10 +43,12 @@ jobs:
         shell: bash
         run: |
           echo ${{secrets.SFDX_AUTH_URI}} > INSTANCE_URL
-          echo ::set-output name=tests::$(cat tests/master.txt)
+          TESTS = $(cat tests/master.txt)
+          echo "APEX_TESTS=$TESTS" $GITHUB_ENV
       # * Login in SFDC instance
       - name: Login in Salesforce
         run: |
+          echo env.APEX_TESTS
           sfdx force:auth:sfdxurl:store -f INSTANCE_URL -s -a sfdcInstance
       # * Deploy Delta changes
       - name: Create Delta
