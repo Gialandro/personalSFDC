@@ -55,14 +55,15 @@ jobs:
         run: |
           sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --generate-delta --output . --source force-app/
       # * Run Specified tests
-      - name: Run one tests
-        if: ${{env.APEX_TESTS != ''}}
+      - name: Run some tests
+        if: ${{(env.APEX_TESTS != '') && (env.APEX_TESTS != 'All') && (env.APEX_TESTS != 'all')}}
         run: |
           sfdx force:apex:test:run --classnames "${{env.APEX_TESTS}}" --codecoverage --resultformat human
-      # # * Run Tests
-      # - name: Run All tests
-      #   run: |
-      #     sfdx force:apex:test:run --testlevel RunLocalTests --codecoverage --resultformat human
+      # # * Run All Tests
+      - name: Run All tests
+        if: ${{(env.APEX_TESTS == 'All') || (env.APEX_TESTS == 'all')}}
+        run: |
+          sfdx force:apex:test:run --testlevel RunLocalTests --codecoverage --resultformat human
       # * Run test with deploy method
       # - name: Test with Deploy method
       #   run: |
