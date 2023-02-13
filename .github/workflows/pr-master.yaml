@@ -2,7 +2,7 @@ name: Deploy in SFDC
 on:
   pull_request:
     types: [synchronize]
-    branches: [master]
+    branches: [master,test]
     paths:
       - "force-app/**"
   push:
@@ -34,10 +34,11 @@ jobs:
         run: |
           echo y | sfdx plugins:install sfdx-git-delta
       # * Install SFDX Scanner plugin (check PMD rules in the repo) and check list of plugins
-      # - name: Install SFDX Scanner
-      #   run: |
-      #     echo y | sfdx plugins:install @salesforce/sfdx-scanner
-      #     sfdx plugins
+      - name: Install SFDX Scanner
+        if: ${{GITHUB.REF_NAME == 'test'}}
+        run: |
+          echo y | sfdx plugins:install @salesforce/sfdx-scanner
+          sfdx plugins
       # * Add URL from secret in repo
       - name: Add URL from repo ans get tests
         shell: bash
