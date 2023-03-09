@@ -2,7 +2,7 @@ name: Deploy in SFDC
 on:
   pull_request:
     types: [synchronize]
-    branches: [master]
+    branches: [master,test]
     paths:
       - "force-app/**"
   push:
@@ -13,44 +13,61 @@ jobs:
   steps-to-deploy:
     runs-on: ubuntu-latest
     container: 
-      image: salesforce/salesforcedx:latest-full
+      image: salesforce/salesforcedx:latest-rc-full
     steps:
       # * Check repo and previous commits for delta deploy (SFDX plugin)
-      - uses: actions/checkout@v3
+      - name: Add repo
+        uses: actions/checkout@v3
         with:
           ref: ${{github.ref}}
           fetch-depth: 0
-          # if: github.event_name == 'push' || github.event.action == 'synchronize'
       # * Use Node 16 for SFDX CLI
-      - uses: actions/setup-node@v3
+      - name: NodeJs
+        uses: actions/setup-node@v3
         with:
           check-latest: true
       # * Update CLI (just in case)
       - name: Update CLI
         run: |
           sfdx update
+          git config --global --add safe.directory /__w/personalSFDC/personalSFDC
       # * Install SFDX Delta plugin (deploy only detected changes)
       - name: Install SFDX Git Delta
         run: |
           echo y | sfdx plugins:install sfdx-git-delta
       # * Install SFDX Scanner plugin (check PMD rules in the repo) and check list of plugins
       - name: Install SFDX Scanner
+        if: ${{GITHUB.REF_NAME == 'test'}}
         run: |
           echo y | sfdx plugins:install @salesforce/sfdx-scanner
           sfdx plugins
       # * Add URL from secret in repo
-      - name: Add URL from repo
+      - name: Add URL from repo ans get tests
         shell: bash
-        run: 'echo ${{secrets.SFDX_AUTH_URI}} > INSTANCE_URL'
+        run: |
+          echo ${{secrets.SFDX_AUTH_URI}} > INSTANCE_URL
+          TESTS=$(cat tests/master.csv)
+          echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
       # * Login in SFDC instance
       - name: Login in Salesforce
         run: |
+          echo ${{GITHUB.REF_NAME}}
           sfdx force:auth:sfdxurl:store -f INSTANCE_URL -s -a sfdcInstance
-          echo ${{github.head_ref}} __ ${{github.sha}} __ ${{github.event.before}} __ ${{github.event.base_ref}}
       # * Deploy Delta changes
       - name: Create Delta
         run: |
-          sfdx sgd:source:delta --to ${{github.sha}} --from HEAD~1 --output .
+          sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --generate-delta --output . --source force-app/
+      # * Run Specified tests
+      - name: Run some tests
+        if: ${{(env.APEX_TESTS != '') && (env.APEX_TESTS != 'All') && (env.APEX_TESTS != 'all')}}
+        run: |
+          sfdx force:apex:test:run --classnames "${{env.APEX_TESTS}}" --codecoverage --resultformat human
+          sfdx force:apex:test:run --classnames "${{env.APEX_TESTS}}" --codecoverage --resultformat json
+      # # * Run All Tests
+      - name: Run All tests
+        if: ${{(env.APEX_TESTS == 'All') || (env.APEX_TESTS == 'all')}}
+        run: |
+          sfdx force:apex:test:run --testlevel RunLocalTests --codecoverage --resultformat human
       # * Deploy changes
       - name: Deploy to SFDC
         run: |
