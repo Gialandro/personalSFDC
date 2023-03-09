@@ -8,7 +8,7 @@
 global with sharing class AccountManager {
     @HttpGet
     global static Account getAccount() {
-		System.debug ('test');
+		System.debug ('test coverageformatters');
         RestRequest request = RestContext.request;
         String accId = request.requestURI.substringBetween('Accounts/', '/contacts');
         Account acc = [SELECT Id, Name, (SELECT ID, Name FROM Contacts) FROM Account WHERE Id =: accId];
