@@ -67,4 +67,4 @@ jobs:
       - name: Deploy  with All Tests
         if: ${{env.APEX_TESTS == 'ALL' || env.APEX_TESTS == 'All' || env.APEX_TESTS == 'all'}}
         run: |
-          sfdx force:source:deploy -x package/package.xml --testlevel RunLocalTests --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
+          sfdx force:source:deploy -x package/package.xml --testlevel RunLocalTests --postdestructivechanges destructiveChanges/destructiveChanges.xml --coverageformatters --verbose
