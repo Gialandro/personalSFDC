@@ -57,7 +57,7 @@ jobs:
       - name: Functional deploy
         if: ${{env.APEX_TESTS == 'No' || env.APEX_TESTS == 'NO' || env.APEX_TESTS == 'no' || env.APEX_TESTS == ''}}
         run: |
-          sfdx force:source:deploy --manifest package/package.xml --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
+          sfdx force:source:deploy --manifest package/package.xml --testlevel RunSpecifiedTests --runtests skip --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
       # # * Deploy specified Tests
       - name: Deploy with specific Tests
         if: ${{env.APEX_TESTS != '' && env.APEX_TESTS != 'All' && env.APEX_TESTS != 'all' && env.APEX_TESTS != 'No' && env.APEX_TESTS != 'NO' && env.APEX_TESTS != 'no'}}
