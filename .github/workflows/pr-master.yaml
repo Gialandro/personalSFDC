@@ -1,10 +1,6 @@
 name: Deploy in SFDC
+run-name: Deploy in ${{GITHUB.REF_NAME}}
 on:
-  pull_request:
-    types: [synchronize]
-    branches: [master,test]
-    paths:
-      - "force-app/**"
   push:
     branches: [master]
     paths:
@@ -53,22 +49,22 @@ jobs:
         run: |
           echo ${{GITHUB.REF_NAME}}
           sfdx force:auth:sfdxurl:store -f INSTANCE_URL -s -a sfdcInstance
-      # * Deploy Delta changes
+      # * Create Delta changes
       - name: Create Delta
         run: |
           sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --generate-delta --output . --source force-app/
-      # * Run Specified tests
-      - name: Run some tests
-        if: ${{(env.APEX_TESTS != '') && (env.APEX_TESTS != 'All') && (env.APEX_TESTS != 'all')}}
+      # * Deploy without tests
+      - name: Functional deploy
+        if: ${{env.APEX_TESTS == 'No' || env.APEX_TESTS == 'NO' || env.APEX_TESTS == 'no' || env.APEX_TESTS == ''}}
         run: |
-          sfdx force:apex:test:run --classnames "${{env.APEX_TESTS}}" --codecoverage --resultformat human
-          sfdx force:apex:test:run --classnames "${{env.APEX_TESTS}}" --codecoverage --resultformat json
-      # # * Run All Tests
-      - name: Run All tests
-        if: ${{(env.APEX_TESTS == 'All') || (env.APEX_TESTS == 'all')}}
+          sfdx force:source:deploy --manifest package/package.xml --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
+      # # * Deploy specified Tests
+      - name: Deploy with specific Tests
+        if: ${{env.APEX_TESTS != '' && env.APEX_TESTS != 'All' && env.APEX_TESTS != 'all' && env.APEX_TESTS != 'No' && env.APEX_TESTS != 'NO' && env.APEX_TESTS != 'no'}}
         run: |
-          sfdx force:apex:test:run --testlevel RunLocalTests --codecoverage --resultformat human
-      # * Deploy changes
-      - name: Deploy to SFDC
+          sfdx force:source:deploy --manifest package/package.xml --testlevel RunSpecifiedTests --runtests ${{env.APEX_TESTS}} --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
+      # * Deploy All Tests
+      - name: Deploy  with All Tests
+        if: ${{env.APEX_TESTS == 'ALL' || env.APEX_TESTS == 'All' || env.APEX_TESTS == 'all'}}
         run: |
-          sfdx force:source:deploy -x package/package.xml --postdestructivechanges destructiveChanges/destructiveChanges.xml
+          sfdx force:source:deploy -x package/package.xml --testlevel RunLocalTests --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
