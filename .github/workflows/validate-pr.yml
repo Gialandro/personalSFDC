@@ -1,0 +1,72 @@
+name: Validate incoming PR
+run-name: Validar ${{GITHUB.EVENT.HEAD_COMMIT.MESSAGE}} hacia ${{GITHUB.REF_NAME}}
+on:
+  pull_request:
+    types: [opened, synchronize, edited]
+    branches: [test, master]
+    paths:
+      - "force-app/**"
+jobs:
+  Validation-of-deploy:
+    runs-on: ubuntu-latest
+    container: 
+      image: salesforce/salesforcedx:latest-rc-full
+    steps:
+      # * Check repo and previous commits for delta deploy (SFDX plugin)
+      - name: Add repo
+        uses: actions/checkout@v3
+        with:
+          ref: ${{GITHUB.REF}}
+          fetch-depth: 0
+      # * Use Node 16 for SFDX CLI
+      - name: NodeJs
+        uses: actions/setup-node@v3
+        with:
+          check-latest: true
+      # * Get Body of PR for list o tests
+      - name: Get Tests of PR
+        env:
+          PAYLOAD: ${{GITHUB.EVENT.PULL_REQUEST.BODY}}
+        run: |
+          echo $PAYLOAD > ./pr_body.txt
+          node ./parsePR.js
+          TESTS=$(cat testsToRun.txt)
+          echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
+      # * Update CLI (just in case)
+      - name: Update CLI and add Safe directory
+        run: |
+          sfdx update
+          git config --global --add safe.directory /__w/personalSFDC/personalSFDC
+      # * Install SFDX Delta plugin (deploy only detected changes)
+      - name: Install SFDX Git Delta
+        run: |
+          echo y | sfdx plugins:install sfdx-git-delta
+          sfdx plugins
+      # * Add URL from secret in repo
+      - name: Add URL from repo ans get tests
+        shell: bash
+        run: |
+          echo ${{secrets.SFDX_AUTH_URI}} > INSTANCE_URL
+      # * Login in SFDC instance
+      - name: Login in Salesforce
+        run: |
+          sfdx force:auth:sfdxurl:store -f INSTANCE_URL -s -a sfdcInstance
+      # * Deploy Delta changes
+      - name: Create Delta
+        run: |
+          sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --generate-delta --output . --source force-app/
+      # * Validate Specified tests
+      - name: Validate without Tests
+        if: ${{env.APEX_TESTS == 'No' || env.APEX_TESTS != 'NO' || env.APEX_TESTS == 'no'}}
+        run: |
+          sfdx force:source:deploy --manifest package/package.xml --checkonly --postdestructivechanges destructiveChanges/destructiveChanges.xml
+      # # * Validate with specific Tests
+      - name: Validate specific Tests
+        if: ${{env.APEX_TESTS != '' && env.APEX_TESTS != 'All' && env.APEX_TESTS != 'all' && env.APEX_TESTS != 'No' && env.APEX_TESTS != 'NO' && env.APEX_TESTS != 'no'}}
+        run: |
+          sfdx force:source:deploy --manifest package/package.xml --checkonly --testlevel RunSpecificTests  --runtests ${{env.APEX_TESTS}} --postdestructivechanges destructiveChanges/destructiveChanges.xml
+      # * Validate with All Tests
+      - name: Validate All Tests
+        if: ${{env.APEX_TESTS == 'ALL' || env.APEX_TESTS == 'All' || env.APEX_TESTS == 'all'}}
+        run: |
+          sfdx force:source:deploy -x package/package.xml --checkonly --testlevel RunLocalTests --postdestructivechanges destructiveChanges/destructiveChanges.xml
