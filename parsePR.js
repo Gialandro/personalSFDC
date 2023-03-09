@@ -9,8 +9,8 @@ async function getTests () {
 		crlfDelay: Infinity
 	});
 	for await (const line of lines) {
-		if (line.includes ('Tests:')) {
-			let tests = line.substring (7);
+		if (line.includes ('@Tests:')) {
+			let tests = line.slice (line.indexOf ('@') + 7);
 			await fs.promises.writeFile (testsFile, tests);
 			await fs.promises.appendFile (testsFile, '\n');
 		}

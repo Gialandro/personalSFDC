@@ -1,5 +1,5 @@
 name: Validate incoming PR
-run-name: Validar cambio de ${{GITHUB.REF_NAME}}
+run-name: Validate change of ${{GITHUB.REF_NAME}}
 on:
   pull_request:
     types: [opened, synchronize, edited]
@@ -51,13 +51,13 @@ jobs:
       - name: Login in Salesforce
         run: |
           sfdx force:auth:sfdxurl:store -f INSTANCE_URL -s -a sfdcInstance
-      # * Deploy Delta changes
+      # * Create Delta changes
       - name: Create Delta
         run: |
           sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --generate-delta --output . --source force-app/
-      # * Validate Specified tests
+      # * Validate without tests
       - name: Validate without Tests
-        if: ${{env.APEX_TESTS == 'No' || env.APEX_TESTS != 'NO' || env.APEX_TESTS == 'no'}}
+        if: ${{env.APEX_TESTS == 'No' || env.APEX_TESTS == 'NO' || env.APEX_TESTS == 'no' || env.APEX_TESTS == ''}}
         run: |
           sfdx force:source:deploy --manifest package/package.xml --checkonly --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
       # # * Validate with specific Tests
