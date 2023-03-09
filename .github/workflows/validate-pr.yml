@@ -55,9 +55,9 @@ jobs:
       - name: Create Delta
         run: |
           sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --generate-delta --output . --source force-app/
-      # * Validate Specified tests
+      # * Validate without tests
       - name: Validate without Tests
-        if: ${{env.APEX_TESTS == 'No' || env.APEX_TESTS == 'NO' || env.APEX_TESTS == 'no'}}
+        if: ${{env.APEX_TESTS == 'No' || env.APEX_TESTS == 'NO' || env.APEX_TESTS == 'no' || env.APEX_TESTS == ''}}
         run: |
           sfdx force:source:deploy --manifest package/package.xml --checkonly --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
       # # * Validate with specific Tests
