@@ -1,5 +1,5 @@
 name: Validate incoming PR
-run-name: Validar ${{GITHUB.EVENT.HEAD_COMMIT.MESSAGE}} hacia ${{GITHUB.REF_NAME}}
+run-name: Validar cambio de ${{GITHUB.REF_NAME}}
 on:
   pull_request:
     types: [opened, synchronize, edited]
@@ -59,14 +59,14 @@ jobs:
       - name: Validate without Tests
         if: ${{env.APEX_TESTS == 'No' || env.APEX_TESTS != 'NO' || env.APEX_TESTS == 'no'}}
         run: |
-          sfdx force:source:deploy --manifest package/package.xml --checkonly --postdestructivechanges destructiveChanges/destructiveChanges.xml
+          sfdx force:source:deploy --manifest package/package.xml --checkonly --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
       # # * Validate with specific Tests
       - name: Validate specific Tests
         if: ${{env.APEX_TESTS != '' && env.APEX_TESTS != 'All' && env.APEX_TESTS != 'all' && env.APEX_TESTS != 'No' && env.APEX_TESTS != 'NO' && env.APEX_TESTS != 'no'}}
         run: |
-          sfdx force:source:deploy --manifest package/package.xml --checkonly --testlevel RunSpecifiedTests --runtests ${{env.APEX_TESTS}} --postdestructivechanges destructiveChanges/destructiveChanges.xml
+          sfdx force:source:deploy --manifest package/package.xml --checkonly --testlevel RunSpecifiedTests --runtests ${{env.APEX_TESTS}} --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
       # * Validate with All Tests
       - name: Validate All Tests
         if: ${{env.APEX_TESTS == 'ALL' || env.APEX_TESTS == 'All' || env.APEX_TESTS == 'all'}}
         run: |
-          sfdx force:source:deploy -x package/package.xml --checkonly --testlevel RunLocalTests --postdestructivechanges destructiveChanges/destructiveChanges.xml
+          sfdx force:source:deploy -x package/package.xml --checkonly --testlevel RunLocalTests --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
