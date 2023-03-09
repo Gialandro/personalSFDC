@@ -2,7 +2,7 @@ const fs = require ('fs');
 const readLine = require ('readline')
 
 async function getTests () {
-	let testsFile = __dirname + 'testsToRun.txt';
+	let testsFile = __dirname + '/testsToRun.txt';
 	await fs.promise.writeFile (testsFile, 'all');
 	const lines = readLine.createInterface ({
 		input: fs.createReadStream (__dirname + '/pr_body.txt'),
