@@ -1,5 +1,5 @@
 name: Validate incoming PR
-run-name: Validate change of ${{GITHUB.REF_NAME}}
+run-name: Validate change of ${{GITHUB.EVENT.PULL_REQUEST.TITLE}} in ${{GITHUB.REF_NAME}}
 on:
   pull_request:
     types: [opened, synchronize, edited]
@@ -18,8 +18,8 @@ jobs:
         with:
           ref: ${{GITHUB.REF}}
           fetch-depth: 0
-      # * Use Node 16 for SFDX CLI
-      - name: NodeJs
+      # * Use Node for SFDX CLI
+      - name: NodeJs version
         uses: actions/setup-node@v3
         with:
           check-latest: true
@@ -46,11 +46,12 @@ jobs:
       - name: Add URL from repo ans get tests
         shell: bash
         run: |
-          echo ${{secrets.SFDX_AUTH_URI}} > INSTANCE_URL
+          echo ${{secrets.SFDX_AUTH_URI}} > ./INSTANCE_URL.txt
+      # ! Update to new way...
       # * Login in SFDC instance
       - name: Login in Salesforce
         run: |
-          sfdx force:auth:sfdxurl:store -f INSTANCE_URL -s -a sfdcInstance
+          sfdx force:auth:sfdxurl:store -f ./INSTANCE_URL.txt -s -a sfdcInstance
       # * Create Delta changes
       - name: Create Delta
         run: |
@@ -60,13 +61,16 @@ jobs:
         if: ${{env.APEX_TESTS == 'No' || env.APEX_TESTS == 'NO' || env.APEX_TESTS == 'no' || env.APEX_TESTS == ''}}
         run: |
           sfdx force:source:deploy --manifest package/package.xml --checkonly --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
+      # ! Update...
       # # * Validate with specific Tests
       - name: Validate specific Tests
         if: ${{env.APEX_TESTS != '' && env.APEX_TESTS != 'All' && env.APEX_TESTS != 'all' && env.APEX_TESTS != 'No' && env.APEX_TESTS != 'NO' && env.APEX_TESTS != 'no'}}
         run: |
           sfdx force:source:deploy --manifest package/package.xml --checkonly --testlevel RunSpecifiedTests --runtests ${{env.APEX_TESTS}} --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
-      # * Validate with All Tests
+      # ! Update...
+          # * Validate with All Tests
       - name: Validate All Tests
         if: ${{env.APEX_TESTS == 'ALL' || env.APEX_TESTS == 'All' || env.APEX_TESTS == 'all'}}
         run: |
           sfdx force:source:deploy -x package/package.xml --checkonly --testlevel RunLocalTests --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
+      # ! Update...
