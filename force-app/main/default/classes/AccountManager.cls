@@ -1,7 +1,11 @@
 /**
  * @description       : 
  * @author            : gialandros@gmail.com
+<<<<<<< HEAD
  * @last modified on  : 29/08/2023
+=======
+ * @last modified on  : 29/08/2023
+>>>>>>> e50c606 (Testing new way)
  * @last modified by  : gialandros@gmail.com
 **/
 @RestResource(urlMapping='/Account/*/contacts')
