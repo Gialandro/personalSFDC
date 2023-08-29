@@ -41,6 +41,7 @@ jobs:
       - name: Install SFDX Git Delta
         run: |
           echo y | sfdx plugins:install sfdx-git-delta
+          sfdx plugins:install @salesforce/sfdx-scanner
           sfdx plugins
       # * Add URL from secret in repo
       - name: Add URL from repo ans get tests
@@ -55,6 +56,11 @@ jobs:
       - name: Create Delta
         run: |
           sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --generate-delta --output . --source force-app/
+      # ? Scanner run
+      - name: Scanner run
+        shell: bash
+        run: |
+          sfdx scanner run --target "force-app" -f junit
       # * Validate without tests
       - name: Validate without Tests
         if: ${{env.APEX_TESTS == 'No' || env.APEX_TESTS == 'NO' || env.APEX_TESTS == 'no' || env.APEX_TESTS == ''}}
