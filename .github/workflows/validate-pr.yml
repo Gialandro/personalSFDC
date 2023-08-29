@@ -60,7 +60,7 @@ jobs:
       - name: Scanner run
         shell: bash
         run: |
-          sfdx scanner run --target "force-app" -f junit
+          sfdx scanner:run --format sarif --target 'force-app' --category "Design,Best Practices,Performance" --outfile 'apexScanResults.sarif'
       # * Validate without tests
       - name: Validate without Tests
         if: ${{env.APEX_TESTS == 'No' || env.APEX_TESTS == 'NO' || env.APEX_TESTS == 'no' || env.APEX_TESTS == ''}}
