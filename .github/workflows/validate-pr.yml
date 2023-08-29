@@ -56,11 +56,16 @@ jobs:
       - name: Create Delta
         run: |
           sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --generate-delta --output . --source force-app/
-      # ? Scanner run
+      # ! Scanner run
       - name: Scanner run
         shell: bash
         run: |
           sfdx scanner:run --format sarif --target 'force-app' --category "Design,Best Practices,Performance" --outfile 'apexScanResults.sarif'
+      # ! Scanner result upload
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: changed-sources/apexScanResults.sarif
       # * Validate without tests
       - name: Validate without Tests
         if: ${{env.APEX_TESTS == 'No' || env.APEX_TESTS == 'NO' || env.APEX_TESTS == 'no' || env.APEX_TESTS == ''}}
