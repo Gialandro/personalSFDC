@@ -1,7 +1,7 @@
 /**
  * @description       : 
  * @author            : gialandros@gmail.com
- * @last modified on  : 09/03/2023
+ * @last modified on  : 29/08/2023
  * @last modified by  : gialandros@gmail.com
 **/
 @RestResource(urlMapping='/Account/*/contacts')
@@ -13,7 +13,7 @@ global with sharing class AccountManager {
         String accId = request.requestURI.substringBetween('Accounts/', '/contacts');
         Account acc = [SELECT Id, Name, (SELECT ID, Name FROM Contacts) FROM Account WHERE Id =: accId];
 		System.debug ('Account=>>' + acc);
-		System.debug ('Gettin branch name again');
+		System.debug ('Testing new way of Login...');
         return acc;
     }
 }
