@@ -46,11 +46,11 @@ jobs:
       - name: Add URL from repo ans get tests
         shell: bash
         run: |
-          echo ${{secrets.SFDX_AUTH_URI}} > ./INSTANCE_URL.txt
+          echo ${{secrets.SFDX_AUTH_URI}} > ./INSTANCE_URL.json
       # * Login in SFDC instance
       - name: Login in Salesforce
         run: |
-          sf org login sfdx-url --sfdx-url ./INSTANCE_URL.txt
+          sf org login sfdx-url --sfdx-url ./INSTANCE_URL.json
       # * Create Delta changes
       - name: Create Delta
         run: |
