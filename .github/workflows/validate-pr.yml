@@ -60,15 +60,12 @@ jobs:
         if: ${{env.APEX_TESTS == 'No' || env.APEX_TESTS == 'NO' || env.APEX_TESTS == 'no' || env.APEX_TESTS == ''}}
         run: |
           sf project deploy start --manifest package/package.xml --target-org sfdcInstance --dry-run --verbose
-          sf project deploy preview --manifest package/package.xml --target-org sfdcInstance
-      # ! Update...
-      # # * Validate with specific Tests
+      # * Validate with specific Tests
       - name: Validate specific Tests
         if: ${{env.APEX_TESTS != '' && env.APEX_TESTS != 'All' && env.APEX_TESTS != 'all' && env.APEX_TESTS != 'No' && env.APEX_TESTS != 'NO' && env.APEX_TESTS != 'no'}}
         run: |
-          sfdx force:source:deploy --manifest package/package.xml --checkonly --testlevel RunSpecifiedTests --runtests ${{env.APEX_TESTS}} --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
-      # ! Update...
-          # * Validate with All Tests
+          sf deploy validate --manifest package/package.xml --target-org sfdcInstance --test-level RunSpecifiedTests --tests ${{env.APEX_TESTS}} --verbose
+      # * Validate with All Tests
       - name: Validate All Tests
         if: ${{env.APEX_TESTS == 'ALL' || env.APEX_TESTS == 'All' || env.APEX_TESTS == 'all'}}
         run: |
