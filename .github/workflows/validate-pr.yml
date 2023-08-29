@@ -50,7 +50,7 @@ jobs:
       # * Login in SFDC instance
       - name: Login in Salesforce
         run: |
-          sf org login sfdx-url --sfdx-url-file INSTANCE_URL.json
+          sf org login sfdx-url --sfdx-url-file ./INSTANCE_URL.json
       # * Create Delta changes
       - name: Create Delta
         run: |
