@@ -50,7 +50,7 @@ jobs:
       # * Login in SFDC instance
       - name: Login in Salesforce
         run: |
-          sf org login sfdx-url --sfdx-url-file ./INSTANCE_URL.json
+          sf org login sfdx-url --sfdx-url-file ./INSTANCE_URL.json --alias sfdcInstance
       # * Create Delta changes
       - name: Create Delta
         run: |
@@ -59,9 +59,8 @@ jobs:
       - name: Validate without Tests
         if: ${{env.APEX_TESTS == 'No' || env.APEX_TESTS == 'NO' || env.APEX_TESTS == 'no' || env.APEX_TESTS == ''}}
         run: |
-          sfdx force:source:deploy --manifest package/package.xml --checkonly --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
-          sf project deploy start --manifest package/package.xml --dry-run --verbose
-          sf project deploy preview --manifest package/package.xml 
+          sf project deploy start --manifest package/package.xml --target-org sfdcInstance --dry-run --verbose
+          sf project deploy preview --manifest package/package.xml --target-org sfdcInstance
       # ! Update...
       # # * Validate with specific Tests
       - name: Validate specific Tests
