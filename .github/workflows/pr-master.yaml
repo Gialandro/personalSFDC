@@ -1,5 +1,5 @@
 name: Deploy in SFDC
-run-name: Deploy in ${{GITHUB.REF_NAME}}
+run-name: Deploy in ${{GITHUB.BASE.REF}}
 on:
   push:
     branches: [master]
@@ -41,14 +41,14 @@ jobs:
       - name: Add URL from repo ans get tests
         shell: bash
         run: |
-          echo ${{secrets.SFDX_AUTH_URI}} > INSTANCE_URL
+          echo ${{secrets.SFDX_AUTH_URI}} > ./INSTANCE_URL.txt
           TESTS=$(cat tests/master.csv)
           echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
       # * Login in SFDC instance
       - name: Login in Salesforce
         run: |
           echo ${{GITHUB.REF_NAME}}
-          sfdx force:auth:sfdxurl:store -f INSTANCE_URL -s -a sfdcInstance
+          sfdx force:auth:sfdxurl:store -f ./INSTANCE_URL.txt -s -a sfdcInstance
       # * Create Delta changes
       - name: Create Delta
         run: |

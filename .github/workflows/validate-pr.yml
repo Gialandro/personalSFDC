@@ -1,5 +1,5 @@
 name: Validate incoming PR
-run-name: Validate change of ${{GITHUB.EVENT.PULL_REQUEST.TITLE}} in ${{GITHUB.REF_NAME}}
+run-name: Validate change of ${{GITHUB.EVENT.PULL_REQUEST.TITLE}} in ${{GITHUB.BASE_REF}}
 on:
   pull_request:
     types: [opened, synchronize, edited]
@@ -47,11 +47,10 @@ jobs:
         shell: bash
         run: |
           echo ${{secrets.SFDX_AUTH_URI}} > ./INSTANCE_URL.txt
-      # ! Update to new way...
       # * Login in SFDC instance
       - name: Login in Salesforce
         run: |
-          sfdx force:auth:sfdxurl:store -f ./INSTANCE_URL.txt -s -a sfdcInstance
+          sf org login sfdx-url --sfdx-url ./INSTANCE_URL.txt
       # * Create Delta changes
       - name: Create Delta
         run: |
@@ -61,6 +60,8 @@ jobs:
         if: ${{env.APEX_TESTS == 'No' || env.APEX_TESTS == 'NO' || env.APEX_TESTS == 'no' || env.APEX_TESTS == ''}}
         run: |
           sfdx force:source:deploy --manifest package/package.xml --checkonly --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
+          sf project deploy start --manifest package/package.xml --dry-run --verbose
+          sf project deploy preview --manifest package/package.xml 
       # ! Update...
       # # * Validate with specific Tests
       - name: Validate specific Tests
