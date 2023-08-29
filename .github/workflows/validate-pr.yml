@@ -64,10 +64,9 @@ jobs:
       - name: Validate specific Tests
         if: ${{env.APEX_TESTS != '' && env.APEX_TESTS != 'All' && env.APEX_TESTS != 'all' && env.APEX_TESTS != 'No' && env.APEX_TESTS != 'NO' && env.APEX_TESTS != 'no'}}
         run: |
-          sf deploy validate --manifest package/package.xml --target-org sfdcInstance --test-level RunSpecifiedTests --tests ${{env.APEX_TESTS}} --verbose
+          sf project deploy validate --manifest package/package.xml --target-org sfdcInstance --test-level RunSpecifiedTests --tests ${{env.APEX_TESTS}} --verbose
       # * Validate with All Tests
       - name: Validate All Tests
         if: ${{env.APEX_TESTS == 'ALL' || env.APEX_TESTS == 'All' || env.APEX_TESTS == 'all'}}
         run: |
-          sfdx force:source:deploy -x package/package.xml --checkonly --testlevel RunLocalTests --postdestructivechanges destructiveChanges/destructiveChanges.xml --verbose
-      # ! Update...
+          sf project deploy validate --manifest package/package.xml --target-org sfdcInstance --test-level RunLocalTests --verbose
